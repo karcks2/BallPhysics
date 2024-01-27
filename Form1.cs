@@ -5,7 +5,6 @@ namespace BallPysichs
     public partial class Form1 : Form
     {
         System.Windows.Forms.Timer mainTimer = null;
-        private Random r = new Random();
         private List<Ball> allBalls = new List<Ball>();
 
         public Form1()
@@ -20,11 +19,11 @@ namespace BallPysichs
         {
             this.DoubleBuffered = true;
             this.BackColor = Color.Black;
-            this.Width = 400;
-            this.Height = 400;
+            this.Width = 820;
+            this.Height = 620;
             this.Text = "Bouncing ball";
 
-            SpawnBalls(2);
+            SpawnBalls(1);
         }
 
         public void SpawnBalls(int numbers)
@@ -34,8 +33,8 @@ namespace BallPysichs
                 var newBall = new Ball();
                 newBall.Left = 190;
                 newBall.Top = 190;
-                newBall.horVelocity = r.Next(1, 20);
-                newBall.vertVelocity = r.Next(1, 5);
+                newBall.horVelocity = 2;
+                newBall.vertVelocity = 2;
                 allBalls.Add(newBall);
                 this.Controls.Add(newBall);
             }
