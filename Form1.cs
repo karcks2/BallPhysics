@@ -1,15 +1,14 @@
-using BallPhysicsEngine;
-
 namespace BallPysichs
 {
     public partial class Form1 : Form
     {
         System.Windows.Forms.Timer mainTimer = null;
-        private List<Ball> allBalls = new List<Ball>();
+
+        private int horVelocity = 2;
+        private int verVelocity = 2;
 
         public Form1()
         {
-            InitializeComponent();
             InitializeComponent();
             InitializeGame();
             InitalizeMainTimer();
@@ -18,26 +17,22 @@ namespace BallPysichs
         public void InitializeGame()
         {
             this.DoubleBuffered = true;
+
             this.BackColor = Color.Black;
+
             this.Width = 820;
             this.Height = 620;
+
             this.Text = "Bouncing ball";
 
-            SpawnBalls(1);
-        }
 
-        public void SpawnBalls(int numbers)
-        {
-            for (int i = 0; i < numbers; i++)
-            {
-                var newBall = new Ball();
-                newBall.Left = 190;
-                newBall.Top = 190;
-                newBall.horVelocity = 2;
-                newBall.vertVelocity = 2;
-                allBalls.Add(newBall);
-                this.Controls.Add(newBall);
-            }
+            Ball.Width = 20;
+            Ball.Height = 20;
+
+            Ball.Left = 190;
+            Ball.Top = 190;
+
+            Ball.BackColor = Color.White;
         }
 
         private void InitalizeMainTimer()
@@ -46,17 +41,12 @@ namespace BallPysichs
             mainTimer.Interval = 20;
             mainTimer.Tick += MainTimer_Tick;
             mainTimer.Start();
-
-
         }
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
-            foreach (var ball in allBalls)
-            {
-                ball.Left += ball.horVelocity;
-                ball.Top += ball.vertVelocity;
-            }
+            Ball.Left += horVelocity;
+            Ball.Top += verVelocity;
 
             BallBorderCollision();
         }
@@ -64,19 +54,23 @@ namespace BallPysichs
         private void BallBorderCollision()
         {
 
-            foreach (var ball in allBalls)
+            if (Ball.Left <= 0 || Ball.Left + Ball.Width >= ClientRectangle.Width)
             {
-                if (ball.Left <= 0 || ball.Left + ball.Width >= ClientRectangle.Width)
-                {
-                    ball.horVelocity *= -1;
-                }
-                else if (ball.Top <= 0 || ball.Top + ball.Height >= ClientRectangle.Height)
-                {
-                    ball.vertVelocity *= -1;
-                }
+                horVelocity *= -1;
+                horVelocity += 2;
+
+            }
+            else if (Ball.Right <= 0 || Ball.Right + Ball.Width >= ClientRectangle.Width)
+            {
+                horVelocity *= -1;
+                horVelocity += -2;
+            }
+
+            else if (Ball.Top <= 0 || Ball.Top + Ball.Height >= ClientRectangle.Height)
+            {
+                verVelocity *= -1;
             }
         }
-
     }
 }
     

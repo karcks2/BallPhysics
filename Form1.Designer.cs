@@ -28,32 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            pictureBox1 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            Ball = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)Ball).BeginInit();
             SuspendLayout();
             // 
-            // pictureBox1
+            // Ball
             // 
-            pictureBox1.Location = new Point(246, 181);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(175, 88);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            pictureBox1.Visible = false;
+            Ball.Location = new Point(353, 198);
+            Ball.Name = "Ball";
+            Ball.Size = new Size(38, 40);
+            Ball.TabIndex = 0;
+            Ball.TabStop = false;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(pictureBox1);
+            Controls.Add(Ball);
             Name = "Form1";
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Ball).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private PictureBox pictureBox1;
+        private PictureBox Ball;
     }
 }
