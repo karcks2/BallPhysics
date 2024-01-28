@@ -1,6 +1,6 @@
 ﻿namespace BallPysichs
 {
-    partial class Form1
+    partial class Game
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             Ball = new PictureBox();
-            player2 = new PictureBox();
-            player1 = new PictureBox();
+            aiPlayer = new PictureBox();
+            player = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)Ball).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)player2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)player1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)aiPlayer).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)player).BeginInit();
             SuspendLayout();
             // 
             // Ball
@@ -44,41 +44,41 @@
             Ball.TabIndex = 0;
             Ball.TabStop = false;
             // 
-            // player2
+            // aiPlayer
             // 
-            player2.Location = new Point(750, 138);
-            player2.Name = "player2";
-            player2.Size = new Size(38, 191);
-            player2.TabIndex = 1;
-            player2.TabStop = false;
+            aiPlayer.Location = new Point(1006, 248);
+            aiPlayer.Name = "aiPlayer";
+            aiPlayer.Size = new Size(38, 191);
+            aiPlayer.TabIndex = 1;
+            aiPlayer.TabStop = false;
             // 
-            // player1
+            // player
             // 
-            player1.Location = new Point(12, 138);
-            player1.Name = "player1";
-            player1.Size = new Size(38, 172);
-            player1.TabIndex = 2;
-            player1.TabStop = false;
+            player.Location = new Point(12, 138);
+            player.Name = "player";
+            player.Size = new Size(38, 172);
+            player.TabIndex = 2;
+            player.TabStop = false;
             // 
-            // Form1
+            // Game
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(player1);
-            Controls.Add(player2);
+            ClientSize = new Size(1056, 756);
+            Controls.Add(player);
+            Controls.Add(aiPlayer);
             Controls.Add(Ball);
-            Name = "Form1";
+            Name = "Game";
             ((System.ComponentModel.ISupportInitialize)Ball).EndInit();
-            ((System.ComponentModel.ISupportInitialize)player2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)player1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)aiPlayer).EndInit();
+            ((System.ComponentModel.ISupportInitialize)player).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private PictureBox Ball;
-        private PictureBox player2;
-        private PictureBox player1;
+        private PictureBox aiPlayer;
+        private PictureBox player;
     }
 }

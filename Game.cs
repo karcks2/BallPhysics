@@ -3,22 +3,28 @@ using System.Windows.Forms;
 
 namespace BallPysichs
 {
-    public partial class Form1 : Form
+    public partial class Game : Form
     {
         System.Windows.Forms.Timer mainTimer = null;
 
         private int horVelocity = 2;
-        private int verVelocity = 0;
+        private int verVelocity = 2;
 
-        public Form1()
+        private int playerSpeed = 5;
+        private int aiSpeed = 5;
+
+        public Game()
         {
+            KeyDown += Game_KeyDown;
+
+
             InitializeComponent();
             InitalizeMainTimer();
 
             InitializeGame();
-            InitalizeBall();  
-            InitalizePlayer();  
-            
+            InitalizeBall();
+            InitalizePlayer();
+
         }
 
         public void InitializeGame()
@@ -27,8 +33,8 @@ namespace BallPysichs
 
             this.BackColor = Color.Black;
 
-            this.Width = 820;
-            this.Height = 620;
+            this.Width = 1080;
+            this.Height = 820;
 
             this.Text = "Bouncing ball";
 
@@ -48,14 +54,14 @@ namespace BallPysichs
 
         public void InitalizePlayer()
         {
-            player1.BackColor = Color.White;
-            player2.BackColor = Color.White;
+            player.BackColor = Color.White;
+            aiPlayer.BackColor = Color.White;
 
-            player1.Width = 20;
-            player1.Height = 100;
+            player.Width = 20;
+            player.Height = 100;
 
-            player2.Width = 20;
-            player2.Height = 100;
+            aiPlayer.Width = 20;
+            aiPlayer.Height = 100;
 
 
         }
@@ -73,26 +79,35 @@ namespace BallPysichs
             Ball.Left += horVelocity;
             Ball.Top += verVelocity;
 
-            BallBorderCollision();
-            BallPlayer1Collison();
-            BallPlayer2Collison();
-        }
-
-        private void BallBorderCollision()
-        {
-
+            // When the ball touches right or left wall
             if (Ball.Left <= 0 || Ball.Left + Ball.Width >= ClientRectangle.Width)
             {
                 mainTimer.Stop();
-                MessageBox.Show("Game over press space to start again");
+                MessageBox.Show("Game over ");
                 SetBallLocationToStart();
-                verVelocity = 0;
+                verVelocity = 2;
                 horVelocity = 2;
                 mainTimer.Start();
             }
             else if (Ball.Top <= 0 || Ball.Top + Ball.Height >= ClientRectangle.Height)
             {
                 verVelocity *= -1;
+            }
+
+            BallPlayer1Collison();
+            BallaiPlayerCollison();
+
+            // ai
+            if (horVelocity > 0)
+            {
+                if (Ball.Top + Ball.Height / 2 > aiPlayer.Bottom)
+                {
+                    aiPlayer.Top += aiSpeed;
+                }
+                else
+                {
+                    aiPlayer.Top -= aiSpeed;
+                }
             }
         }
 
@@ -106,25 +121,25 @@ namespace BallPysichs
             Ball.Location = newLocation;
         }
 
-        private void BallPlayer2Collison()
+        private void BallaiPlayerCollison()
         {
-            if (Ball.Bounds.IntersectsWith(player2.Bounds))
+            if (Ball.Bounds.IntersectsWith(aiPlayer.Bounds))
             {
                 // Change direction when collision occurs
                 horVelocity *= -1;
                 verVelocity *= -1;
-                verVelocity += 0;
+                verVelocity += -2;
                 horVelocity += -2;
             }
 
             // Add boundary checking logic if needed
             // Example: Reverse direction when hitting form boundaries
-            if (Ball.Left <= 0 || player2.Right >= ClientSize.Width)
+            if (Ball.Left <= 0 || aiPlayer.Right >= ClientSize.Width)
             {
                 horVelocity *= -1;
             }
 
-            if (Ball.Top <= 0 || player2.Bottom >= ClientSize.Height)
+            if (Ball.Top <= 0 || aiPlayer.Bottom >= ClientSize.Height)
             {
                 verVelocity *= -1;
             }
@@ -132,26 +147,44 @@ namespace BallPysichs
 
         private void BallPlayer1Collison()
         {
-            if (Ball.Bounds.IntersectsWith(player1.Bounds))
+            if (Ball.Bounds.IntersectsWith(player.Bounds))
             {
                 // Change direction when collision occurs
                 horVelocity *= -1;
                 verVelocity *= -1;
-                verVelocity += 0;
+                verVelocity += 2;
                 horVelocity += 2;
             }
 
             // Add boundary checking logic if needed
             // Example: Reverse direction when hitting form boundaries
-            if (Ball.Left <= 0 || player1.Right >= ClientSize.Width)
+            if (Ball.Left <= 0 || player.Right >= ClientSize.Width)
             {
                 horVelocity += -5;
             }
 
-            if (Ball.Top <= 0 || player1.Bottom >= ClientSize.Height)
+            if (Ball.Top <= 0 || player.Bottom >= ClientSize.Height)
             {
                 verVelocity *= -1;
             }
+        }
+
+        private void Game_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Move the PictureBox up
+            if (e.KeyCode == Keys.Up)
+            {
+                player.Top -= playerSpeed;
+            }
+
+            // Move the PictureBox down
+            if (e.KeyCode == Keys.Down)
+            {
+                player.Top += playerSpeed;
+            }
+
+            // Update the PictureBox's location
+            player.Location = new Point(player.Left, Math.Max(0, Math.Min(ClientSize.Height - player.Height, player.Top)));
         }
     }
 }
