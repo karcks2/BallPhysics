@@ -38,7 +38,7 @@
             // 
             // Ball
             // 
-            Ball.Location = new Point(367, 195);
+            Ball.Location = new Point(477, 290);
             Ball.Name = "Ball";
             Ball.Size = new Size(38, 40);
             Ball.TabIndex = 0;

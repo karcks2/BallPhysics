@@ -7,11 +7,11 @@ namespace BallPysichs
     {
         System.Windows.Forms.Timer mainTimer = null;
 
-        private int horVelocity = 2;
-        private int verVelocity = 2;
+        private int ballx = 2;
+        private int bally = -2;
 
         private int playerSpeed = 5;
-        private int aiSpeed = 5;
+        private int aiSpeed = 2;
 
         public Game()
         {
@@ -24,8 +24,8 @@ namespace BallPysichs
             InitializeGame();
             InitalizeBall();
             InitalizePlayer();
-
         }
+
 
         public void InitializeGame()
         {
@@ -36,8 +36,8 @@ namespace BallPysichs
             this.Width = 1080;
             this.Height = 820;
 
-            this.Text = "Bouncing ball";
-
+            this.Text = "Ping-Pong";
+            
         }
 
         public void InitalizeBall()
@@ -58,10 +58,10 @@ namespace BallPysichs
             aiPlayer.BackColor = Color.White;
 
             player.Width = 20;
-            player.Height = 100;
+            player.Height = 120;
 
             aiPlayer.Width = 20;
-            aiPlayer.Height = 100;
+            aiPlayer.Height = 120;
 
 
         }
@@ -76,29 +76,38 @@ namespace BallPysichs
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
-            Ball.Left += horVelocity;
-            Ball.Top += verVelocity;
+            Ball.Left += ballx;
+            Ball.Top += bally;
 
             // When the ball touches right or left wall
             if (Ball.Left <= 0 || Ball.Left + Ball.Width >= ClientRectangle.Width)
             {
                 mainTimer.Stop();
-                MessageBox.Show("Game over ");
+                MessageBox.Show("Ai won");
                 SetBallLocationToStart();
-                verVelocity = 2;
-                horVelocity = 2;
+                bally = 2;
+                ballx = 2;
+                mainTimer.Start();
+            }
+            if (Ball.Right <= 0 || Ball.Right + Ball.Width >= ClientRectangle.Width)
+            {
+                mainTimer.Stop();
+                MessageBox.Show("You won");
+                SetBallLocationToStart();
+                bally = 2;
+                ballx = 2;
                 mainTimer.Start();
             }
             else if (Ball.Top <= 0 || Ball.Top + Ball.Height >= ClientRectangle.Height)
             {
-                verVelocity *= -1;
+                bally *= -1;
             }
 
             BallPlayer1Collison();
             BallaiPlayerCollison();
 
             // ai
-            if (horVelocity > 0)
+            if (ballx > 0)
             {
                 if (Ball.Top + Ball.Height / 2 > aiPlayer.Bottom)
                 {
@@ -126,22 +135,22 @@ namespace BallPysichs
             if (Ball.Bounds.IntersectsWith(aiPlayer.Bounds))
             {
                 // Change direction when collision occurs
-                horVelocity *= -1;
-                verVelocity *= -1;
-                verVelocity += -2;
-                horVelocity += -2;
+                ballx *= -1;
+                bally *= -1;
+                ballx += -2;
+                bally += -2;
             }
 
             // Add boundary checking logic if needed
             // Example: Reverse direction when hitting form boundaries
             if (Ball.Left <= 0 || aiPlayer.Right >= ClientSize.Width)
             {
-                horVelocity *= -1;
+                ballx *= -1;
             }
 
             if (Ball.Top <= 0 || aiPlayer.Bottom >= ClientSize.Height)
             {
-                verVelocity *= -1;
+                bally *= -1;
             }
         }
 
@@ -150,22 +159,22 @@ namespace BallPysichs
             if (Ball.Bounds.IntersectsWith(player.Bounds))
             {
                 // Change direction when collision occurs
-                horVelocity *= -1;
-                verVelocity *= -1;
-                verVelocity += 2;
-                horVelocity += 2;
+                ballx *= -1;
+                bally *= -1;
+                bally += 2;
+                ballx += 2;
             }
 
             // Add boundary checking logic if needed
             // Example: Reverse direction when hitting form boundaries
             if (Ball.Left <= 0 || player.Right >= ClientSize.Width)
             {
-                horVelocity += -5;
+                ballx += -5;
             }
 
             if (Ball.Top <= 0 || player.Bottom >= ClientSize.Height)
             {
-                verVelocity *= -1;
+                bally *= -1;
             }
         }
 
