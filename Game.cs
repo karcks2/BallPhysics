@@ -11,7 +11,7 @@ namespace BallPysichs
         private int bally = -2;
 
         private int playerSpeed = 5;
-        private int aiSpeed = 2;
+        private int aiSpeed = 3;
 
         public Game()
         {
@@ -134,23 +134,32 @@ namespace BallPysichs
         {
             if (Ball.Bounds.IntersectsWith(aiPlayer.Bounds))
             {
-                // Change direction when collision occurs
+                int aiPlayerMidpoint = aiPlayer.Top + aiPlayer.Height / 2;
+
+                if (Ball.Top < aiPlayerMidpoint)
+                {
+                    // Make the ball go upwards if the ball touches the upper part
+                    bally = -Math.Abs(bally); 
+                }
+                else
+                {
+                    bally = Math.Abs(bally); 
+                }
+
                 ballx *= -1;
-                bally *= -1;
-                ballx += -2;
-                bally += -2;
+
             }
 
-            // Add boundary checking logic if needed
-            // Example: Reverse direction when hitting form boundaries
             if (Ball.Left <= 0 || aiPlayer.Right >= ClientSize.Width)
             {
                 ballx *= -1;
+                ballx += 2;
             }
 
             if (Ball.Top <= 0 || aiPlayer.Bottom >= ClientSize.Height)
             {
                 bally *= -1;
+                bally += 2;
             }
         }
 
@@ -158,23 +167,34 @@ namespace BallPysichs
         {
             if (Ball.Bounds.IntersectsWith(player.Bounds))
             {
-                // Change direction when collision occurs
+                int playerMidpoint = player.Top + player.Height / 2;
+
+                if (Ball.Top < playerMidpoint)
+                {
+                    // Make the ball go upwards when the it touches the upper part
+                    bally = -Math.Abs(bally); 
+                }
+                else
+                {
+                    bally = Math.Abs(bally); 
+                }
+
+                // Change direction in the x-axis
                 ballx *= -1;
-                bally *= -1;
-                bally += 2;
-                ballx += 2;
             }
 
             // Add boundary checking logic if needed
             // Example: Reverse direction when hitting form boundaries
             if (Ball.Left <= 0 || player.Right >= ClientSize.Width)
             {
-                ballx += -5;
+                ballx *= -1;
+                ballx += 2;
             }
 
             if (Ball.Top <= 0 || player.Bottom >= ClientSize.Height)
             {
                 bally *= -1;
+                bally += 2;
             }
         }
 
