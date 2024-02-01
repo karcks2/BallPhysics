@@ -20,8 +20,8 @@ namespace BallPysichs
         {
             this.DoubleBuffered = true;
             this.BackColor = Color.Black;
-            this.Width = 400;
-            this.Height = 400;
+            this.Width = 1020;
+            this.Height = 820;
             this.Text = "Bouncing ball";
 
             SpawnBalls(2);
@@ -36,6 +36,8 @@ namespace BallPysichs
                 newBall.Top = 190;
                 newBall.horVelocity = r.Next(1, 20);
                 newBall.vertVelocity = r.Next(1, 5);
+                newBall.Top = r.Next(80, 400);
+                newBall.Left = r.Next(80, 400);
                 allBalls.Add(newBall);
                 this.Controls.Add(newBall);
             }
@@ -60,6 +62,7 @@ namespace BallPysichs
             }
 
             BallBorderCollision();
+            BallTOBallCollision();
         }
 
         private void BallBorderCollision()
@@ -74,6 +77,26 @@ namespace BallPysichs
                 else if (ball.Top <= 0 || ball.Top + ball.Height >= ClientRectangle.Height)
                 {
                     ball.vertVelocity *= -1;
+                }
+            }
+        }
+
+        private void BallTOBallCollision()
+        {
+            foreach(var ball in allBalls)
+            {
+                foreach(var otherBall in allBalls)
+                {
+                    if(ball != otherBall)
+                    {
+                        if (ball.Bounds.IntersectsWith(otherBall.Bounds))
+                        {
+                            ball.BackColor = Color.Red;
+                            otherBall.BackColor = Color.Red;
+                            SpawnBalls(1);
+                            return;
+                        }
+                    }
                 }
             }
         }
